@@ -5,13 +5,12 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
-
-    private JFrame frame;
-    private JTextField ipField, portField, inputField1;
-    private JTextArea resultArea;
-    private Socket socket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private JFrame frame; //главное окно приложения
+    private JTextField ipField, portField, inputField1; //текстовые поля для ввода IP-адреса, порта и данных для отправки
+    private JTextArea resultArea; //область для вывода результата (ответа от сервера)
+    private Socket socket; //объект для подключения к серверу через сокет
+    private PrintWriter out; //поток для отправки данных на сервер
+    private BufferedReader in; //поток для получения данных от сервера
 
     public Client() {
         frame = new JFrame("Клиент");
@@ -74,9 +73,9 @@ public class Client {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            JOptionPane.showMessageDialog(frame, "Connected to server!");
+            JOptionPane.showMessageDialog(frame, "Подключено к серверу!");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(frame, "Connection failed: " + e.getMessage());
+            JOptionPane.showMessageDialog(frame, "Соединение прервано: " + e.getMessage());
         }
     }
 
@@ -85,14 +84,12 @@ public class Client {
             String word1 = inputField1.getText();
             String dataToSend = word1;
 
-            out.println(dataToSend); // отправка данных на сервер
+            out.println(dataToSend);
 
-            // получение ответа от сервера
             String serverResponse = in.readLine();
             resultArea.setText(serverResponse);
-
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(frame, "Error sending data: " + e.getMessage());
+            JOptionPane.showMessageDialog(frame, "Ошибка отправки данных: " + e.getMessage());
         }
     }
 

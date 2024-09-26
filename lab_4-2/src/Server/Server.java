@@ -1,5 +1,7 @@
 package Server;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -26,12 +28,22 @@ public class Server {
                 double result = calculateFormula(x, y, z);
                 System.out.println("Результат вычислений: " + result);
 
+                try(FileWriter writer = new FileWriter("results.txt", false))
+                {
+                    String str = "x: " + x + ", y: " + y + ", z: " + z + "\nРезультат: " + result;
+                    writer.write(str);
+                    writer.flush();
+                }
+                catch(IOException ex){
+                    System.out.println(ex.getMessage());
+                }
+
                 InetAddress clientAddress = receivePacket.getAddress();
                 int clientPort = receivePacket.getPort();
                 sendData = ByteBuffer.allocate(8).putDouble(result).array();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
                 serverSocket.send(sendPacket);
-                System.out.println("Результат отправлен.");
+                System.out.println("Результат отправлен");
             }
         } catch (Exception e) {
             System.out.println("Ошибка сервера: " + e.getMessage());
@@ -39,7 +51,6 @@ public class Server {
         }
     }
 
-    // Метод для вычисления формулы
     private static double calculateFormula(double x, double y, double z) {
         return Math.sqrt(10 * (Math.sqrt(x) + Math.pow(x, y * z)) *
                 (Math.pow(Math.sin(z), 2) + Math.abs(x + y)) * Math.exp(z));

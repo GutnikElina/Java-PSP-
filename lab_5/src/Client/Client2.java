@@ -1,11 +1,11 @@
 package Client;
 
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Client {
+public class Client2 {
     public static void main(String[] args) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -23,7 +23,7 @@ public class Client {
                 String clientMessageWithTime = clientMessage + " [" + dtf.format(LocalDateTime.now()) + "]";
                 System.out.println("~you~: " + clientMessageWithTime);
 
-                oos.writeObject(clientMessage);
+                oos.writeObject("~client2~: " + clientMessageWithTime);
 
                 String serverResponse = (String) ois.readObject();
                 String serverFormattedResponse = "~server~: " + serverResponse;

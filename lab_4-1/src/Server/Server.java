@@ -14,9 +14,13 @@ public class Server {
              ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
              ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
              BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in))) {
+            /*Создает поток для чтения данных с клавиатуры (System.in).
+              Преобразует этот байтовый поток в символьный поток (InputStreamReader).
+              Добавляет буфер для ускорения работы с вводом (BufferedReader),
+              чтобы данные можно было удобно читать построчно или посимвольно.*/
 
-            System.out.println("Server starting....");
-            System.out.println("Connection established, you can chat....");
+
+            System.out.println("Произведено соединение....");
             System.out.println("----------------------------------");
 
             String clientMessage;
@@ -31,11 +35,10 @@ public class Server {
 
                 oos.writeObject(serverMessageWithTime);
             }
-
         } catch (EOFException e) {
-            System.out.println("Connection closed by client.");
+            System.out.println("Соединение прервано клиентом.");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("An error occurred: " + e.getMessage());
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 }

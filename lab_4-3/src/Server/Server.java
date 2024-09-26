@@ -8,33 +8,30 @@ public class Server {
         int port = 1234;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("The server is running. Waiting for connection...");
+            System.out.println("Начало работы сервера. Ожидание соединения...");
 
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
-                    System.out.println("Client connected.");
+                    System.out.println("Клиент подключен");
 
-                    // чтение слова от клиента
                     String word = in.readLine();
-                    System.out.println("Received from client: " + word);
+                    System.out.println("Получено от клиента: " + word);
 
-                    // переворачиваем слово
                     String reversedWord = new StringBuilder(word).reverse().toString();
 
-                    // отправляем перевернутое слово обратно клиенту
                     out.println(reversedWord);
-                    System.out.println("Sent to client: " + reversedWord);
-                    System.out.println("The connection with the client has ended.");
+                    System.out.println("Отправлено клиенту: " + reversedWord);
+                    System.out.println("Соединение с клиентом закончено");
                     System.out.println("-----------------------------------------");
                 } catch (IOException e) {
-                    System.out.println("Error processing connection with client: " + e.getMessage());
+                    System.out.println("Ошибка соединения с клиентом: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
-            System.out.println("Server startup error: " + e.getMessage());
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 }
